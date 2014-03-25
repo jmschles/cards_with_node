@@ -9,9 +9,9 @@ app.set("log level", 1);
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view options', { layout: false });
-// app.configure(function() {
-//   app.use(express.static(__dirname + '/public'));
-// });
+app.configure(function() {
+  app.use(express.static(__dirname + '/public'));
+});
 app.get('/', function(req, res) {
   res.render('index.html');
 });
@@ -51,6 +51,11 @@ io.sockets.on('connection', function(client) {
   client.on('dealCards', function() {
     var cards = game.draw(deck, 6, "", true);
     client.emit('showCards', cards);
-    socket.sockets.emit("remainingCards", pack.length);
+    io.sockets.emit("remainingCards", deck.length);
+  });
+
+  client.on('getOpponents', function() {
+    console.log("I don't know who the opponents are.");
+    return false;
   });
 });
