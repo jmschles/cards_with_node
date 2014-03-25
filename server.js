@@ -1,4 +1,4 @@
-var game = require('./game');
+var gamefile = require('./game');
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
@@ -18,6 +18,7 @@ app.get('/', function(req, res) {
 
 var players = {};
 var start = false;
+var game = new gamefile.Game();
 var deck = game.shuffleDeck(game.createDeck());
 
 Object.size = function(obj) {
@@ -36,6 +37,10 @@ io.sockets.on('connection', function(client) {
     for(var key in players) {
       console.log("Players: " + key + ": " + players[key]);
     }
+  });
+
+  client.on('connectToServer', function(data) {
+    var player = new Player(socket.id);
   });
 
   client.on('disconnect', function() {
