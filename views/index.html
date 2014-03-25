@@ -23,7 +23,7 @@
   var socket = io.connect("http://localhost:3001");
   
   $("#ready").click(function() {
-    var player = %("#player").val();
+    var player = $("#player").val();
     console.log(player);
     console.log('called');
     socket.emit("addPlayer", player);
